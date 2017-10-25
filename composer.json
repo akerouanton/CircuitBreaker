@@ -1,0 +1,42 @@
+{
+    "name": "nir/circuit-breaker",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Albin Kerouanton",
+            "email": "albin.kerouanton@knplabs.com"
+        }
+    ],
+    "require": {
+        "php": "~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4",
+        "phpspec/phpspec": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {"NiR\\CircuitBreaker\\": ["src/"]}
+    },
+    "autoload-dev": {
+        "psr-4": {"NiR\\CircuitBreaker\\Tests\\": ["tests/"]}
+    },
+    "scripts": {
+        "docker:build": ["cat Dockerfile | docker build -t circuit-breaker -"],
+        "docker:install": [
+            "@docker:build",
+            "docker run --rm -v $(pwd):/app -w /app -u $(id -u):$(id -g) circuit-breaker composer install"
+        ],
+        "docker:tests": [
+            "@docker:build",
+            "docker run --rm -v $(pwd):/app -w /app -u $(id -u):$(id -g) circuit-breaker composer run tests"
+        ],
+        "docker:run": ["echo \"docker run -it --rm -v $(pwd):/app -w /app -u $(id -u):$(id -g) circuit-breaker ash\""],
+        "tests": [
+            "@tests:phpspec",
+            "@tests:phpunit"
+        ],
+        "tests:phpspec": ["vendor/bin/phpspec run"],
+        "tests:phpunit": ["vendor/bin/phpunit tests/"]
+    }
+}

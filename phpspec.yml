@@ -1,0 +1,4 @@
+suites:
+    default:
+        namespace: NiR\CircuitBreaker
+        psr4_prefix: NiR\CircuitBreaker
